@@ -19,6 +19,12 @@ function TestFailed {
 }
 
 testDir.sh $@ test-src/simple || TestFailed
+testDir.sh $@ test-src/included_files || TestFailed
+testDir.sh $@ test-src/excluded_files || TestFailed
+testDir.sh $@ test-src/static_lib || TestFailed
+testDir.sh $@ test-src/out_of_tree  || TestFailed
+testDir.sh $@ test-src/missing_files  || TestFailed
+testDir.sh $@ test-src/template_includes/ || TestFailed
 
 if [[ $failed_tests -gt 0 ]]; then
     echo ""
