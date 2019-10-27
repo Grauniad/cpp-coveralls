@@ -5,9 +5,15 @@
 export PATH="$PATH:$PWD/test-utils"
 
 exit_on_fail="no"
-if [[ "$1" == "-e" || "$1" == "--exit-on-fail" ]]; then
-    exit_on_fail="yes"
-fi
+
+function ParseArguments {
+    while [[ "$1" != "" ]]; do
+        if [[ "$1" == "-e" || "$1" == "--exit-on-fail" ]]; then
+            exit_on_fail="yes"
+        fi
+        shift
+    done
+}
 
 failed_tests=0
 function TestFailed {
@@ -17,6 +23,8 @@ function TestFailed {
         exit 1
     fi
 }
+
+ParseArguments $@
 
 testDir.sh $@ test-src/simple || TestFailed
 testDir.sh $@ test-src/included_files || TestFailed
